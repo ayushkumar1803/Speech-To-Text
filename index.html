@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech To Text</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYYzGNVq6nIKEsZiZFfQXkxIwhOVQLwQEsdw&usqp=CAU" type="image/x-icon">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", "sans-serif";
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+            background: linear-gradient(#b44aee, #4e71e3);
+        }
+
+        .wrapper {
+            border-radius: 5px;
+            width: 470px;
+            background: #e4e8e7;
+            padding: 25px 25px 30px;
+        }
+
+        .wrapper h2 {
+            color: #4671EA;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .wrapper textarea {
+            width: 100%;
+            height: 59px;
+            padding: 10px;
+            outline: none;
+            resize: none;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 5px;
+            color: #000000b0;
+        }
+
+        span {
+            font-size: 30px;
+            color: #4671EA;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h2>Speech To Text</h2><br>
+        <textarea id="textarea" placeholder="Say Something..." required></textarea>
+        <button id="mic-button"><span class="bi bi-mic-fill blue-color"></span></button>
+    </div>
+
+    <script>
+
+        class SpeechToText {
+            constructor(inputarea, actbutton) {
+                this.inputarea = inputarea;
+                this.actbutton = actbutton;
+                this.recognition = null;
+                this.actbutton.onclick = () => {
+                    this.start();
+                };
+            }
+
+            start() {
+                var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = false;
+
+                this.recognition.onresult = (event) => {
+                    this.inputarea.value = event.results[0][0].transcript;
+                };
+                this.recognition.start();
+            }
+        }
+
+        let textarea = document.querySelector("#textarea");
+        let micbutton = document.querySelector("#mic-button");
+        let spt = new SpeechToText(textarea, micbutton);
+
+    </script>
+</body>
+
+</html>
